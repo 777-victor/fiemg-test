@@ -1,24 +1,38 @@
-import express from 'express';
-// import morgan from 'morgan';
+import express, { NextFunction } from 'express';
 import cors from 'cors';
-// import './database/connection';
-// import errorHandler from './middleware/errorHandler';
+import './db';
 import apiRoutes from '@routes/index';
+import httpStatus from 'http-status';
+import ApiError from './helpers/ApiError';
+import { errorConverter, errorHandler } from '@middlewares/error';
 
 export const createServer = () => {
   const app = express();
   app
     .disable('x-powered-by')
-    // .use(morgan('dev'))
     .use(express.urlencoded({ extended: true }))
     .use(express.json())
-    .use(cors());
+    .use(
+      cors({
+        origin: '*',
+      }),
+    );
 
   app.get('/healthz', (req, res) => {
     return res.json({ ok: true, environment: process.env.NODE_ENV });
   });
 
   app.use('/api', apiRoutes);
+
+  // send back a 404 error for any unknown api request
+  app.use((next: NextFunction) => {
+    next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+  });
+
+  // convert error to ApiError, if needed
+  app.use(errorConverter);
+  // handle error
+  app.use(errorHandler);
 
   // app.use(errorHandler);
 

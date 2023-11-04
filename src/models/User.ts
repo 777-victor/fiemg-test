@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Table,
   Column,
@@ -8,10 +8,11 @@ import {
   UpdatedAt,
   AutoIncrement,
   PrimaryKey,
-  BeforeCreate,
   BeforeUpdate,
+  BeforeCreate,
 } from 'sequelize-typescript';
 import { hash, compare } from 'bcrypt';
+import { DataTypes } from 'sequelize';
 
 @Table({
   tableName: 'users',
@@ -26,22 +27,37 @@ class User extends Model {
   name: string;
 
   @Column
+  email: string;
+
+  @Column
   password: string;
 
   @CreatedAt
+  @Column({
+    type: DataTypes.DATE,
+    field: 'created_at',
+  })
   createdAt: Date;
 
   @UpdatedAt
+  @Column({
+    type: DataTypes.DATE,
+    field: 'updated_at',
+  })
   updatedAt: Date;
 
   @DeletedAt
+  @Column({
+    type: DataTypes.DATE,
+    field: 'deleted_at',
+  })
   deletedAt: Date;
 
   @BeforeUpdate
   @BeforeCreate
   static hashPassword = async (instance: User): Promise<void> => {
-    if (instance.password) {
-      instance.password = await hash(instance.password, 8);
+    if (instance.email) {
+      instance.email = instance.email.toLowerCase();
     }
   };
 
@@ -49,3 +65,5 @@ class User extends Model {
     return compare(password, this.getDataValue('password'));
   };
 }
+
+export default User;
