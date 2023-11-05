@@ -9,7 +9,7 @@ export default class UserValidator {
     const schema = Yup.object().shape({
       name: Yup.string().max(100).required("'name' is required"),
       email: Yup.string().email().max(150).required("'email' is required"),
-      password: Yup.string().min(8).required("'password' is required"),
+      password: Yup.string().min(8).max(150).required("'password' is required"),
     });
 
     try {
@@ -28,7 +28,23 @@ export default class UserValidator {
       id: Yup.number().required("'id' is required"),
       name: Yup.string().max(100).required("'name' is required"),
       email: Yup.string().email().max(150).required("'email' is required"),
-      password: Yup.string().min(8).nullable(),
+      password: Yup.string().min(8).max(150).nullable(),
+    });
+
+    try {
+      await validateSchema(req.body, schema);
+    } catch (error: Yup.ValidationError | any | undefined) {
+      next(yupErrorHandler(error));
+    }
+
+    next();
+  }
+
+  async paramsIdValidator(req: Request, res: Response, next: NextFunction) {
+    req.body.id = req.params.id ?? null;
+
+    const schema = Yup.object().shape({
+      id: Yup.number().required("'id' is required"),
     });
 
     try {

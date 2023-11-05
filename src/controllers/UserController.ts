@@ -34,9 +34,21 @@ export default class AuthController {
       const updateUserReponse: ApiServiceResponse =
         await this.userService.updateUser(req.body);
 
-      logger.info(updateUserReponse);
-
       res.status(updateUserReponse.code).send(updateUserReponse);
+    } catch (e) {
+      logger.error(e);
+      res.status(httpStatus.BAD_GATEWAY).send(e);
+    }
+  };
+
+  delete = async (req: Request, res: Response) => {
+    try {
+      const userId = req.params.id;
+
+      const deleteUserReponse: ApiServiceResponse =
+        await this.userService.delete(userId);
+
+      res.status(deleteUserReponse.code).send(deleteUserReponse);
     } catch (e) {
       logger.error(e);
       res.status(httpStatus.BAD_GATEWAY).send(e);

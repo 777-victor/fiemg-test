@@ -1,7 +1,7 @@
 export declare type ApiServiceResponse = {
   code: number;
   message: string;
-  data?: [] | object;
+  data?: [] | object | null | undefined;
 };
 
 export declare type DataTableResponse = {

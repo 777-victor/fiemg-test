@@ -1,9 +1,6 @@
 import IUserDao from '@dao/contracts/IUserDao';
-// import sequelize from '../../db/index';
 import User from '@/src/models/User';
 import SuperDao from './SuperDao';
-
-// const User = sequelize.user;
 
 export default class UserDao extends SuperDao implements IUserDao {
   constructor() {
@@ -21,9 +18,5 @@ export default class UserDao extends SuperDao implements IUserDao {
       }
       return false;
     });
-  }
-
-  async createWithTransaction(user: any, transaction: any) {
-    return User.create(user, { transaction });
   }
 }

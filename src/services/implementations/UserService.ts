@@ -20,17 +20,13 @@ export default class UserService implements IUserService {
       let message = 'User created successfully';
 
       if (await this.userDao.isEmailExists(userBody.email)) {
-        return responseHandler.returnError(
-          httpStatus.BAD_REQUEST,
-          'Email already taken',
-        );
+        message = 'Email already taken';
+        return responseHandler.returnError(httpStatus.BAD_REQUEST, message);
       }
 
-      if (userBody.password === undefined) {
-        return responseHandler.returnError(
-          httpStatus.BAD_REQUEST,
-          'Password is required!',
-        );
+      if (!userBody.password?.trim()) {
+        message = 'Password is required!';
+        return responseHandler.returnError(httpStatus.BAD_REQUEST, message);
       }
 
       userBody.password = bcrypt.hashSync(userBody.password, 8);
@@ -109,7 +105,29 @@ export default class UserService implements IUserService {
     }
   }
 
+  delete = async (id: string) => {
+    try {
+      let message = 'User deleted successfully';
+
+      const user: User | null = await this.userDao.findById(Number(id));
+      if (!user) {
+        message = 'User not found';
+        return responseHandler.returnError(httpStatus.BAD_REQUEST, message);
+      }
+
+      await this.userDao.deleteByWhere({ id: Number(id) });
+
+      return responseHandler.returnSuccess(httpStatus.OK, message);
+    } catch (e) {
+      logger.error(e);
+      return responseHandler.returnError(
+        httpStatus.BAD_REQUEST,
+        'Something went wrong!',
+      );
+    }
+  };
+
   getUserById = async (id: string) => {
-    return this.userDao.findById(Number(id));
+    return await this.userDao.findById(Number(id));
   };
 }

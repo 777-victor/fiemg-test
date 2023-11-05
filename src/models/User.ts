@@ -57,7 +57,7 @@ class User extends Model {
   @BeforeCreate
   static hashPassword = async (instance: User): Promise<void> => {
     if (instance.email) {
-      instance.email = instance.email.toLowerCase();
+      instance.email = instance.email.trim().toLowerCase();
     }
   };
 
