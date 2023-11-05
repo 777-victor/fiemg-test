@@ -9,4 +9,7 @@ module.exports = {
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
+  setupFiles: ['dotenv/config', '<rootDir>/src/configs/database'],
+  globalSetup: '<rootDir>/src/tests/global-setup.ts',
+  globalTeardown: '<rootDir>/src/tests/global-teardown.ts',
 };

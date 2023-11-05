@@ -1,8 +1,6 @@
-import {
-  ApiServiceResponse,
-  DataTableResponse,
-} from '../../types/apiServiceResponse';
+import { DataTableResponse } from '../../types/apiServiceResponse';
+import { Request } from 'express';
 
 export default interface IUniversityService {
-  list: () => Promise<DataTableResponse>;
+  list: (req: Request) => Promise<DataTableResponse>;
 }

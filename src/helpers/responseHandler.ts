@@ -50,9 +50,9 @@ const getPaginationData = (
 
   const response: DataTableResponse = {
     totalItems,
-    data,
     totalPages,
     currentPage,
+    data,
   };
   return response;
 };

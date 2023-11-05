@@ -69,6 +69,7 @@ export default class SuperDao implements ISuperDao {
     return this.Model.update(data, { where: { id } })
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }
@@ -131,6 +132,7 @@ export default class SuperDao implements ISuperDao {
     return this.Model.bulkCreate(data)
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }
@@ -139,6 +141,7 @@ export default class SuperDao implements ISuperDao {
     return this.Model.count({ where })
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }
@@ -156,6 +159,7 @@ export default class SuperDao implements ISuperDao {
       .increment(fieldName, { by: incrementValue })
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }
@@ -173,6 +177,7 @@ export default class SuperDao implements ISuperDao {
       .decrement(fieldName, { by: decrementValue })
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }
@@ -182,15 +187,18 @@ export default class SuperDao implements ISuperDao {
     limit: number,
     offset: number,
     order: string[][] = [['id', 'DESC']],
+    include: object[] = [],
   ): Promise<DataTableDaoResponse> {
     return this.Model.findAndCountAll({
+      include: include,
+      where: where,
       limit: Number(limit),
       offset: Number(offset),
-      where: where,
       order,
     })
       .then((result: any) => result)
       .catch((e: any) => {
+        logger.error(e);
         console.log(e);
       });
   }

@@ -12,6 +12,7 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "baseUrl": "./",
+    "types": ["node", "jest"],
     "typeRoots": ["src/types", "node_modules/@types/"],
     "paths": {
       "@/*": ["*"],
@@ -29,5 +30,12 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.cjs", "swc.config.ts"],
-  "exclude": ["node_modules", "build", "__tests__", "coverage"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "coverage",
+    "**/*.test.*",
+    "**/__mocks__/*",
+    "**/__tests__/*"
+  ]
 }

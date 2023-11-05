@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
-import { ApiServiceResponse, DataTableResponse } from 'apiServiceResponse';
+import { DataTableResponse } from 'apiServiceResponse';
 import { logger } from '../helpers/logger';
 import UniversityService from '../services/implementations/UniversityService';
 
@@ -13,10 +13,8 @@ export default class UserController {
 
   list = async (req: Request, res: Response) => {
     try {
-      logger.info('bateu aqui2');
-
       const listReponse: DataTableResponse =
-        await this.universityService.list();
+        await this.universityService.list(req);
 
       res.status(httpStatus.OK).send(listReponse);
     } catch (e) {

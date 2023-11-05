@@ -12,6 +12,7 @@ interface CustomSequelize extends Sequelize {
 
 // eslint-disable-next-line
 const dbConfig = require('../configs/database');
+console.log(dbConfig);
 const sequelize: CustomSequelize = new Sequelize(dbConfig);
 
 try {
@@ -19,27 +20,15 @@ try {
 
   sequelize.addModels(models);
 
-  // const startLoopDb = () => {
-  //   // eslint-disable-next-line no-underscore-dangle
-  //   global._loopDb = setInterval(() => {
-  //     FindUpdateTicketsInactiveChatBot();
-  //     console.log("DATABASE CONNECT");
-  //   }, 60000);
-  // };
-
   sequelize.afterConnect(() => {
     logger.info('DATABASE CONNECT');
-    // QueueJobs.default.add('VerifyTicketsChatBotInactives', {});
-    // QueueJobs.default.add('SendMessageSchenduled', {});
   });
 
   sequelize.afterDisconnect(() => {
     logger.info('DATABASE DISCONNECT');
-
-    // eslint-disable-next-line no-underscore-dangle
-    // clearInterval(global._loopDb);
   });
 } catch (e) {
   logger.error(e);
 }
+
 export default sequelize;

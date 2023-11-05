@@ -15,31 +15,25 @@ export default class AuthService implements IAuthService {
 
   loginWithEmailPassword = async (email: string, password: string) => {
     try {
-      let message = 'Login Successful';
-      let statusCode: number = httpStatus.OK;
-
+      let statusCode = httpStatus.BAD_REQUEST;
+      let message = 'Invalid credentials!';
       let user = await this.userDao.findByEmail(email);
       if (!user) {
-        message = 'Invalid Email Address!';
         return responseHandler.returnError(httpStatus.BAD_REQUEST, message);
       }
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       let data = {};
       if (user != null) {
-        data = {
-          acess_token: generateToken(user.id.toString()),
-          type: 'Bearer',
-        };
+        data = generateToken(user.id.toString());
       }
 
       if (!isPasswordValid) {
-        statusCode = httpStatus.BAD_REQUEST;
-        message = 'Wrong Password!';
         return responseHandler.returnError(statusCode, message);
       }
+      message = 'Login Successful';
 
-      return responseHandler.returnSuccess(statusCode, message, data);
+      return responseHandler.returnSuccess(httpStatus.OK, message, data);
     } catch (e) {
       logger.error(e);
       return responseHandler.returnError(

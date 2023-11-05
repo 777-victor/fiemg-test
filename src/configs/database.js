@@ -1,11 +1,9 @@
-require('dotenv').config({
-  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
-});
+require('dotenv').config();
 
 let logging = false;
-if (process.env.APP_DEBUG) logging = console.log;
+// if (process.env.APP_DEBUG) logging = console.log;
 
-module.exports = {
+let dbConfig = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -29,11 +27,8 @@ module.exports = {
   },
 };
 
-// Directory for commands: ./dindin-api/
+if (process.env.NODE_ENV == 'test') {
+  dbConfig.database = process.env.DB_NAME_TEST;
+}
 
-// Create migration: npx sequelize-cli model:generate --name user --attributes name:string --config config.json
-// Run all migrations: npx sequelize-cli db:migrate --env 'production'
-// Undo all migrations: npx sequelize-cli db:migrate:undo:all --env 'production'
-
-// Create seed: npx sequelize-cli seed:generate --name demo-user
-// Run all seeds: npx sequelize-cli db:seed:all --env 'production'
+module.exports = dbConfig;
