@@ -127,7 +127,18 @@ export default class UserService implements IUserService {
     }
   };
 
-  getUserById = async (id: string) => {
-    return await this.userDao.findById(Number(id));
+  getUserById = async (id: number) => {
+    let user: User | null = await this.userDao.findById(id);
+    let userDTO: IUser | null = null;
+
+    if (user != null) {
+      userDTO = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+    }
+
+    return userDTO;
   };
 }

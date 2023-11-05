@@ -1,18 +1,16 @@
 import httpStatus from 'http-status';
 import * as bcrypt from 'bcrypt';
-import { logger } from '@helpers/logger.js';
-import UserDao from '@dao/implementations/UserDao.js';
-import responseHandler from '@helpers/responseHandler.js';
-import IAuthService from '@services/contracts/IAuthService.js';
-import TokenService from './TokenService';
+import { logger } from '@helpers/logger';
+import UserDao from '@dao/implementations/UserDao';
+import responseHandler from '@helpers/responseHandler';
+import IAuthService from '@services/contracts/IAuthService';
+import { generateToken } from '@helpers/jwtHelper';
 
 export default class AuthService implements IAuthService {
   private userDao: UserDao;
-  private tokenService: TokenService;
 
   constructor() {
     this.userDao = new UserDao();
-    this.tokenService = new TokenService();
   }
 
   loginWithEmailPassword = async (email: string, password: string) => {
@@ -27,9 +25,12 @@ export default class AuthService implements IAuthService {
       }
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
-      let token = {};
+      let data = {};
       if (user != null) {
-        token = { token: this.tokenService.generateToken(user.id.toString()) };
+        data = {
+          acess_token: generateToken(user.id.toString()),
+          type: 'Bearer',
+        };
       }
 
       if (!isPasswordValid) {
@@ -38,7 +39,7 @@ export default class AuthService implements IAuthService {
         return responseHandler.returnError(statusCode, message);
       }
 
-      return responseHandler.returnSuccess(statusCode, message, token);
+      return responseHandler.returnSuccess(statusCode, message, data);
     } catch (e) {
       logger.error(e);
       return responseHandler.returnError(

@@ -1,14 +1,11 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import { ApiServiceResponse } from 'apiServiceResponse';
-// import { logger } from '@configs/logger.js';
-// import { tokenTypes } from '@configs/tokens.js';
-// import { IUser } from '@models/interfaces/IUser.js';
 import UserService from '@services/implementations/UserService';
 import { logger } from '../helpers/logger';
-import User from '../models/User';
+import { IUser } from '../models/interfaces/IUser';
 
-export default class AuthController {
+export default class UserController {
   private userService: UserService;
 
   constructor() {
@@ -59,12 +56,11 @@ export default class AuthController {
     try {
       const userId = req.params.id;
 
-      const getUserReponse: User | null =
-        await this.userService.getUserById(userId);
+      const getUserReponse: IUser | null = await this.userService.getUserById(
+        Number(userId),
+      );
 
-      res
-        .status(getUserReponse ? httpStatus.OK : httpStatus.NOT_FOUND)
-        .send(getUserReponse);
+      res.status(httpStatus.OK).send(getUserReponse);
     } catch (e) {
       logger.error(e);
       res.status(httpStatus.BAD_GATEWAY).send(e);

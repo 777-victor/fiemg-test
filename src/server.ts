@@ -18,14 +18,14 @@ export const createServer = () => {
       }),
     );
 
-  app.get('/healthz', (req, res) => {
-    return res.json({ ok: true, environment: process.env.NODE_ENV });
+  app.get('/', (req, res) => {
+    return res.json({ running: true, environment: process.env.NODE_ENV });
   });
 
   app.use('/api', apiRoutes);
 
   // send back a 404 error for any unknown api request
-  app.use((next: NextFunction) => {
+  app.use((req, res, next: NextFunction) => {
     next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
   });
 
@@ -33,8 +33,6 @@ export const createServer = () => {
   app.use(errorConverter);
   // handle error
   app.use(errorHandler);
-
-  // app.use(errorHandler);
 
   return app;
 };
