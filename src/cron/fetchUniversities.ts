@@ -1,7 +1,6 @@
 import Country from '@models/Country';
 import University from '@models/University';
 import axios from 'axios';
-import { logger } from '../helpers/logger';
 
 interface UniversitySearchResponse {
   'state-province': string | null;

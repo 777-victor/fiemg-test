@@ -43,7 +43,7 @@ const getPaginationData = (
   rows: DataTableDaoResponse,
   page: number,
   limit: number,
-) => {
+): DataTableResponse => {
   const { count: totalItems, rows: data } = rows;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);

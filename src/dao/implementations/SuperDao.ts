@@ -178,7 +178,7 @@ export default class SuperDao implements ISuperDao {
   }
 
   public async getDataTableData(
-    where: object,
+    where: object | null,
     limit: number,
     offset: number,
     order: string[][] = [['id', 'DESC']],
@@ -186,7 +186,7 @@ export default class SuperDao implements ISuperDao {
     return this.Model.findAndCountAll({
       limit: Number(limit),
       offset: Number(offset),
-      where,
+      where: where,
       order,
     })
       .then((result: any) => result)
