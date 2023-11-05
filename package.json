@@ -10,6 +10,10 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register src/index.ts' -e ts",
+    "migration:undo": "npx sequelize-cli db:migrate:undo:all --env 'production'",
+    "migration": "npx sequelize-cli db:migrate --env 'production'",
+    "seed": "npx sequelize-cli db:seed:all --env 'production'",
+    "seed:undo": "npx sequelize-cli db:seed:undo",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix"
   },
