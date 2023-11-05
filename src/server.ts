@@ -1,6 +1,5 @@
 import express, { NextFunction } from 'express';
 import cors from 'cors';
-import './db';
 import apiRoutes from '@routes/index';
 import httpStatus from 'http-status';
 import ApiError from './helpers/ApiError';

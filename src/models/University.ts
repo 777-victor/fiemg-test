@@ -7,8 +7,11 @@ import {
   UpdatedAt,
   AutoIncrement,
   PrimaryKey,
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import Country from './Country';
 
 @Table({
   tableName: 'universities',
@@ -18,24 +21,6 @@ class University extends Model {
   @AutoIncrement
   @Column
   id: number;
-
-  @Column
-  name: string;
-
-  @Column({
-    allowNull: true,
-    field: 'web_page',
-  })
-  webPage: string | null;
-
-  @Column({ allowNull: true })
-  domain: string | null;
-
-  @Column({
-    field: 'state_province',
-    allowNull: true,
-  })
-  stateProvince: string | null;
 
   @CreatedAt
   @Column({
@@ -50,6 +35,33 @@ class University extends Model {
     field: 'updated_at',
   })
   updatedAt: Date;
+
+  @Column
+  name: string;
+
+  @Column({
+    allowNull: true,
+    field: 'web_page',
+  })
+  webPage?: string;
+
+  @Column({
+    allowNull: true,
+  })
+  domain?: string;
+
+  @Column({
+    allowNull: true,
+    field: 'state_province',
+  })
+  stateProvince?: string;
+
+  @ForeignKey(() => Country)
+  @Column({ field: 'country_id' })
+  countryId: number;
+
+  @BelongsTo(() => Country)
+  country: Country;
 }
 
 export default University;

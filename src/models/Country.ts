@@ -7,8 +7,10 @@ import {
   UpdatedAt,
   AutoIncrement,
   PrimaryKey,
+  HasMany,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import University from './University';
 
 @Table({
   tableName: 'countries',
@@ -18,12 +20,6 @@ class Country extends Model {
   @AutoIncrement
   @Column
   id: number;
-
-  @Column
-  name: string;
-
-  @Column({ field: 'alpha_two_code' })
-  alphaTwoCode: string;
 
   @CreatedAt
   @Column({
@@ -38,6 +34,15 @@ class Country extends Model {
     field: 'updated_at',
   })
   updatedAt: Date;
+
+  @Column
+  name: string;
+
+  @Column({ field: 'alpha_two_code' })
+  alphaTwoCode: string;
+
+  @HasMany(() => University)
+  universities: University[];
 }
 
 export default Country;

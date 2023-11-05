@@ -7,4 +7,6 @@ const router = Router();
 router.use(authRoute);
 router.use('/user', userRoute);
 
+// router.post('/loadUniversities', userRoute);
+
 export default router;

@@ -9,6 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
       name: {
         type: Sequelize.STRING,
       },
@@ -24,13 +32,14 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
+      country_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'countries',
+          },
+          key: 'id',
+        },
       },
     });
   },
