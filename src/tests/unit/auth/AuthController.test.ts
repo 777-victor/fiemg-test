@@ -15,25 +15,35 @@ describe('POST /user test suite', () => {
   });
 
   it('should authenticate a user with success', async () => {
-    try {
-      let password = '12345678';
-      const user = await User.create({
-        name: 'teste',
-        email: 'testeasfasf@example.com',
-        password: bcrypt.hashSync(password, 8),
-      });
+    let password = '12345678';
+    const user = await User.create({
+      name: 'teste',
+      email: 'testeasfasf@example.com',
+      password: bcrypt.hashSync(password, 8),
+    });
 
-      const response = await request(app).post('/api/login').send({
-        email: user.email,
-        password: password,
-      });
+    const response = await request(app).post('/api/login').send({
+      email: user.email,
+      password: password,
+    });
 
-      console.log(response);
-      expect(response.statusCode).toEqual(200);
-      // expect(response.body).toHaveProperty('id');
-    } catch (e) {
-      console.log('erro');
-      console.log(e);
-    }
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveProperty('data');
+    expect(response.body.data).toHaveProperty('acess_token');
+  });
+
+  it('should not authenticate a user with success', async () => {
+    const user = await User.create({
+      name: 'teste',
+      email: 'testeasfasf@example.com',
+      password: bcrypt.hashSync('12345678', 8),
+    });
+
+    const response = await request(app).post('/api/login').send({
+      email: user.email,
+      password: '3435345435435',
+    });
+
+    expect(response.statusCode).toEqual(400);
   });
 });

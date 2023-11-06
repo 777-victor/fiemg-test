@@ -1,5 +1,5 @@
 import IUserDao from '@dao/contracts/IUserDao';
-import User from '@/src/models/User';
+import User from '../../models/User';
 import SuperDao from './SuperDao';
 
 export default class UserDao extends SuperDao implements IUserDao {

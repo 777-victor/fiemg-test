@@ -42,9 +42,4 @@ export default class AuthService implements IAuthService {
       );
     }
   };
-
-  // logout = async (req: Request, res: Response) => {
-  //   // const refreshTokenDoc = await this.tokenDao.findOne({
-
-  // };
 }

@@ -91,11 +91,7 @@ export default class UserService implements IUserService {
         delete userDTO.deletedAt;
       }
 
-      return responseHandler.returnSuccess(
-        httpStatus.CREATED,
-        message,
-        userDTO,
-      );
+      return responseHandler.returnSuccess(httpStatus.OK, message, userDTO);
     } catch (e) {
       logger.error(e);
       return responseHandler.returnError(
