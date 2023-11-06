@@ -31,7 +31,7 @@ yarn install
 
 1. Certifique-se de que você tenha um banco de dados configurado. Edite o arquivo de .env conforme necessário.
 
-2. Execute as migrações do banco de dados para criar o banco de dados:
+2. Execute o comando para criar o banco de dados:
 
 ```
 yarn db:create
