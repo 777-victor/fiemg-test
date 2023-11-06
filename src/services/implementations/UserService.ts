@@ -4,15 +4,15 @@ import * as bcrypt from 'bcrypt';
 import { IUser } from '@models/interfaces/IUser';
 import IUserService from '@services/contracts/IUserService.js';
 import responseHandler from '@helpers/responseHandler';
-import UserDao from '@dao/implementations/UserDao';
 import { logger } from '@/src/helpers/logger';
 import User from '@/src/models/User';
+import IUserDao from '@/src/dao/contracts/IUserDao';
 
 export default class UserService implements IUserService {
-  private userDao: UserDao;
+  private userDao: IUserDao;
 
-  constructor() {
-    this.userDao = new UserDao();
+  constructor(userDao: IUserDao) {
+    this.userDao = userDao;
   }
   createUser = async (userBodyReq: IUser) => {
     try {

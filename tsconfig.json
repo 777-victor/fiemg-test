@@ -12,7 +12,6 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "baseUrl": "./",
-    "types": ["node", "jest"],
     "typeRoots": ["src/types", "node_modules/@types/"],
     "paths": {
       "@/*": ["*"],

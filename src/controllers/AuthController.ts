@@ -5,14 +5,15 @@ import AuthService from '@services/implementations/AuthService';
 import UserService from '../services/implementations/UserService';
 import ApiError from '../helpers/ApiError';
 import { IUser } from '../models/interfaces/IUser';
+import UserDao from '../dao/implementations/UserDao';
 
 export default class AuthController {
   private authService: AuthService;
   private userService: UserService;
 
   constructor() {
-    this.authService = new AuthService();
-    this.userService = new UserService();
+    this.authService = new AuthService(new UserDao());
+    this.userService = new UserService(new UserDao());
   }
 
   login = async (req: Request, res: Response) => {
@@ -38,12 +39,9 @@ export default class AuthController {
         throw new ApiError(httpStatus.FORBIDDEN, 'User not logged');
       }
       const userId = req.userInfo.id;
-      logger.info(userId);
 
       const getUserReponse: IUser | null =
         await this.userService.getUserById(userId);
-
-      logger.info(getUserReponse);
 
       res.status(httpStatus.OK).send(getUserReponse);
     } catch (e) {

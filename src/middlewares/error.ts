@@ -7,7 +7,6 @@ import ApiError from '@helpers/ApiError';
 // eslint-disable-next-line no-unused-vars
 export const errorHandler = (err: any, req: Request, res: Response) => {
   let { statusCode, message } = err;
-  console.log('errorHandler', err);
 
   if (config.nodeEnv === 'production' && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;

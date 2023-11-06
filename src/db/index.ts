@@ -8,25 +8,18 @@ import University from '../models/University';
 interface CustomSequelize extends Sequelize {
   afterConnect?: any;
   afterDisconnect?: any;
+  openConnecton?: any;
+  closeConnection?: any;
 }
 
 // eslint-disable-next-line
 const dbConfig = require('../configs/database');
-console.log(dbConfig);
 const sequelize: CustomSequelize = new Sequelize(dbConfig);
 
 try {
   const models = [User, Country, University];
 
   sequelize.addModels(models);
-
-  sequelize.afterConnect(() => {
-    logger.info('DATABASE CONNECT');
-  });
-
-  sequelize.afterDisconnect(() => {
-    logger.info('DATABASE DISCONNECT');
-  });
 } catch (e) {
   logger.error(e);
 }

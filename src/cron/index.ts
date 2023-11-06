@@ -1,16 +1,12 @@
 import * as cron from 'node-cron';
 
-import {
-  EVERY_DAY_03AM,
-  EVERY_30_MINUTES,
-  EVERY_HOUR,
-  EVERY_SECOND,
-} from '@configs/scheduleConstants';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { EVERY_DAY_03AM, EVERY_MINUTE } from '@configs/scheduleConstants';
 import { fetchUniversities } from './fetchUniversities';
 import { logger } from '../helpers/logger';
 
-const generateTransactions = cron.schedule(EVERY_30_MINUTES, async () => {
-  console.log('cronjob running ');
+const generateTransactions = cron.schedule(EVERY_DAY_03AM, async () => {
+  console.log('cronjob running');
   console.time('Script Execution');
   try {
     await fetchUniversities();
@@ -25,7 +21,7 @@ const generateTransactions = cron.schedule(EVERY_30_MINUTES, async () => {
 
 export default {
   async startCronJobs() {
-    console.log('Cronjobs stated');
     generateTransactions.start();
+    console.log('Cronjobs configured');
   },
 };

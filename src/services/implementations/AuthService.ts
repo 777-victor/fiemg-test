@@ -1,16 +1,16 @@
 import httpStatus from 'http-status';
 import * as bcrypt from 'bcrypt';
 import { logger } from '@helpers/logger';
-import UserDao from '@dao/implementations/UserDao';
 import responseHandler from '@helpers/responseHandler';
 import IAuthService from '@services/contracts/IAuthService';
 import { generateToken } from '@helpers/jwtHelper';
+import IUserDao from '@/src/dao/contracts/IUserDao';
 
 export default class AuthService implements IAuthService {
-  private userDao: UserDao;
+  private userDao: IUserDao;
 
-  constructor() {
-    this.userDao = new UserDao();
+  constructor(userDao: IUserDao) {
+    this.userDao = userDao;
   }
 
   loginWithEmailPassword = async (email: string, password: string) => {

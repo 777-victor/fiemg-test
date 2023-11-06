@@ -1,21 +1,20 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import { ApiServiceResponse } from 'apiServiceResponse';
-import UserService from '@services/implementations/UserService';
+import UserService from '../services/implementations/UserService';
 import { logger } from '../helpers/logger';
 import { IUser } from '../models/interfaces/IUser';
+import UserDao from '../dao/implementations/UserDao';
 
 export default class UserController {
   private userService: UserService;
 
   constructor() {
-    this.userService = new UserService();
+    this.userService = new UserService(new UserDao());
   }
 
   create = async (req: Request, res: Response) => {
     try {
-      logger.info('bateu aqui2');
-
       const createUserReponse: ApiServiceResponse =
         await this.userService.createUser(req.body);
 

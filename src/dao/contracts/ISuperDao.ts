@@ -1,3 +1,5 @@
+import { DataTableDaoResponse } from '@/src/types/apiServiceResponse';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default interface ISuperDao {
   findAll: () => Promise<any>;
@@ -30,4 +32,11 @@ export default interface ISuperDao {
     where: object,
     decrementValue: number,
   ) => Promise<any>;
+  getDataTableData(
+    where: object | null,
+    limit: number,
+    offset: number,
+    order: string[][],
+    include: object[],
+  ): Promise<DataTableDaoResponse>;
 }

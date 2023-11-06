@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 // const dbConfig = require('../configs/database');
 require('dotenv').config();
-console.log(process.env);
+
 let dbConfig = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -11,7 +11,7 @@ let dbConfig = {
 };
 
 dbConfig.database = process.env.DB_NAME_TEST;
-console.log(dbConfig);
+
 // eslint-disable-next-line
 const mysql = require('mysql2/promise');
 

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import responseHandler from '@helpers/responseHandler';
-import UniversityDao from '@/src/dao/implementations/UniversityDao';
 import IUniversityService from '../contracts/IUniversityService';
 import { Request } from 'express';
 import Country from '@/src/models/Country';
 import { Op } from 'sequelize';
+import IUniversityDao from '@/src/dao/contracts/IUniversityDao';
 
 interface ListUniversityQueryParams {
   country?: string | null;
@@ -15,10 +15,10 @@ interface ListUniversityQueryParams {
 }
 
 export default class UniversityService implements IUniversityService {
-  private universityDao: UniversityDao;
+  private universityDao: IUniversityDao;
 
-  constructor() {
-    this.universityDao = new UniversityDao();
+  constructor(universityDao: IUniversityDao) {
+    this.universityDao = universityDao;
   }
 
   list = async (req: Request) => {
@@ -46,7 +46,7 @@ export default class UniversityService implements IUniversityService {
     let limit = take && take < 50 ? take : 50;
     let pg = page ? page : 1;
     let offset = limit * (pg - 1);
-    console.log(where);
+
     const dataTableData = await this.universityDao.getDataTableData(
       where,
       limit,
